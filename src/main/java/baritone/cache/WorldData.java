@@ -43,12 +43,12 @@ public class WorldData implements IWorldData {
         this.dimension = dimension;
     }
 
-    public void readFromNbt(NbtCompound tag) {
+    public void readFromNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
         this.containerMemory.read(tag.getCompound("containers"));
-        this.waypoints.readFromNbt(tag.getCompound("waypoints"));
+        this.waypoints.readFromNbt(tag.getCompound("waypoints"), registryLookup);
     }
 
-    public void writeToNbt(NbtCompound tag) {
+    public void writeToNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
         tag.put("containers", containerMemory.toNbt());
         tag.put("waypoints", waypoints.toNbt());
     }

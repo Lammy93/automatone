@@ -51,7 +51,7 @@ public class WaypointCollection implements IWaypointCollection {
                 .collect(Collectors.toMap(Function.identity(), t -> new HashSet<>())));
     }
 
-    public void readFromNbt(NbtCompound nbt) {
+    public void readFromNbt(NbtCompound nbt, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
         for (Waypoint.Tag tag : Waypoint.Tag.values()) {
             this.waypoints.put(tag, readFromNbt(tag, nbt.getList(tag.name(), NbtType.COMPOUND)));
         }

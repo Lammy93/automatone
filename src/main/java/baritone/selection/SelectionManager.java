@@ -126,12 +126,12 @@ public class SelectionManager implements ISelectionManager {
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag) {
+    public void readFromNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
         // NO-OP
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
+    public void writeToNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
         // NO-OP
     }
 
@@ -147,7 +147,7 @@ public class SelectionManager implements ISelectionManager {
     }
 
     @Override
-    public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
+    public void writeSyncPacket(net.minecraft.network.RegistryByteBuf buf, ServerPlayerEntity recipient) {
         buf.writeVarInt(this.selectionsArr.length);
 
         for (ISelection sel : this.selectionsArr) {
@@ -157,7 +157,7 @@ public class SelectionManager implements ISelectionManager {
     }
 
     @Override
-    public void applySyncPacket(PacketByteBuf buf) {
+    public void applySyncPacket(net.minecraft.network.RegistryByteBuf buf) {
         this.removeAllSelections();
 
         int length = buf.readVarInt();

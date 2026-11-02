@@ -38,12 +38,12 @@ public class WorldProvider implements IWorldProvider {
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag) {
-        this.currentWorld.readFromNbt(tag);
+    public void readFromNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
+        this.currentWorld.readFromNbt(tag, registryLookup);
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
-        this.currentWorld.writeToNbt(tag);
+    public void writeToNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
+        this.currentWorld.writeToNbt(tag, registryLookup);
     }
 }

@@ -248,12 +248,12 @@ public class Baritone implements IBaritone {
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag) {
+    public void readFromNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
         // NO-OP
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
+    public void writeToNbt(NbtCompound tag, net.minecraft.registry.RegistryWrapper.WrapperLookup registryLookup) {
         // NO-OP
     }
 
@@ -264,13 +264,13 @@ public class Baritone implements IBaritone {
     }
 
     @Override
-    public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
+    public void writeSyncPacket(net.minecraft.network.RegistryByteBuf buf, ServerPlayerEntity recipient) {
         buf.writeBoolean(this.isActive());
         this.pathingBehavior.writeToPacket(buf);
     }
 
     @Override
-    public void applySyncPacket(PacketByteBuf buf) {
+    public void applySyncPacket(net.minecraft.network.RegistryByteBuf buf) {
         assert this.clientPathingBehaviour != null : "applySyncPacket called on a server world";
         boolean active = buf.readBoolean();
         if (active) {
