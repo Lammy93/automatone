@@ -264,7 +264,7 @@ public class SelCommand extends Command {
         float lineWidth = settings.selectionLineWidth.get();
         boolean ignoreDepth = settings.renderSelectionIgnoreDepth.get();
         IRenderer.startLines(color, opacity, lineWidth, ignoreDepth);
-        IRenderer.drawAABB(new Box(pos1, pos1.add(1, 1, 1)));
+        IRenderer.drawAABB(new Box(net.minecraft.util.math.Vec3d.of(pos1), net.minecraft.util.math.Vec3d.of(pos1.add(1, 1, 1))));
         IRenderer.endLines(ignoreDepth);
     }
 

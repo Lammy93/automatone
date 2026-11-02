@@ -28,7 +28,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.ClickEvent;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;

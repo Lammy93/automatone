@@ -42,7 +42,6 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Pair;

@@ -33,7 +33,6 @@ import baritone.utils.SettingsLoader;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 

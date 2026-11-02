@@ -43,7 +43,7 @@ public enum DefaultSchematicFormats implements ISchematicFormat {
     MCEDIT("schematic") {
         @Override
         public IStaticSchematic parse(InputStream input) throws IOException {
-            return new MCEditSchematic(NbtIo.readCompressed(input));
+            return new MCEditSchematic(NbtIo.readCompressed(input, net.minecraft.nbt.NbtSizeTracker.ofUnlimitedBytes()));
         }
     },
 
@@ -55,7 +55,7 @@ public enum DefaultSchematicFormats implements ISchematicFormat {
     SPONGE("schem") {
         @Override
         public IStaticSchematic parse(InputStream input) throws IOException {
-            NbtCompound nbt = NbtIo.readCompressed(input);
+            NbtCompound nbt = NbtIo.readCompressed(input, net.minecraft.nbt.NbtSizeTracker.ofUnlimitedBytes());
             int version = nbt.getInt("Version");
             return switch (version) {
                 case 1, 2 -> new SpongeSchematic(nbt);

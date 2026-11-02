@@ -27,7 +27,7 @@ public class SelectionRenderer implements IRenderer {
             IRenderer.glColor(settings.colorSelectionPos1.get(), opacity);
 
             for (ISelection selection : selections) {
-                IRenderer.drawAABB(new Box(selection.pos1(), selection.pos1().add(1, 1, 1)));
+                IRenderer.drawAABB(new Box(net.minecraft.util.math.Vec3d.of(selection.pos1()), net.minecraft.util.math.Vec3d.of(selection.pos1().add(1, 1, 1))));
             }
         }
 
