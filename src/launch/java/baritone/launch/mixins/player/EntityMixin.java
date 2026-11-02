@@ -37,11 +37,21 @@ public abstract class EntityMixin {
     @SuppressWarnings("unused") // makes the field mutable for use by IEntityAccessor
     @Shadow @Mutable @Final private EntityType<?> type;
 
-    @Dynamic("hasPlayerRider player check lambda")
-    @Inject(method = "method_31469", at = @At(value = "HEAD"), cancellable = true)
-    private static void removeFakePlayers(Entity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (entity instanceof AutomatoneFakePlayer) {
-            cir.setReturnValue(false);
+    @Shadow
+    private java.util.stream.Stream<Entity> streamIntoPassengers() {
+        throw new AssertionError();
+    }
+
+    // 1.20.3+: hasPlayerRider() is getPlayerPassengers() == 1, and the player filter is a lambda
+    // inside getPlayerPassengers(). Instead of targeting that lambda by name, subtract fake players
+    // from the result so they never count as player passengers.
+    @Inject(method = "getPlayerPassengers", at = @At("RETURN"), cancellable = true)
+    private void removeFakePlayers(CallbackInfoReturnable<Integer> cir) {
+        long fakePlayers = this.streamIntoPassengers()
+                .filter(e -> e instanceof AutomatoneFakePlayer)
+                .count();
+        if (fakePlayers > 0) {
+            cir.setReturnValue(cir.getReturnValueI() - (int) fakePlayers);
         }
     }
 }
