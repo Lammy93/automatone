@@ -24,8 +24,8 @@ plugins {
 group project.maven_group
 version System.getenv("TAG_NAME") ?: project.mod_version
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 compileJava {
     options.encoding = "UTF-8" // allow emoji in comments :^)

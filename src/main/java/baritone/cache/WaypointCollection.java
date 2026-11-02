@@ -63,7 +63,7 @@ public class WaypointCollection implements IWaypointCollection {
             NbtCompound in = nbt.getCompound(i);
             String name = in.getString("name");
             long creationTimestamp = in.getLong("created");
-            BetterBlockPos pos = new BetterBlockPos(NbtHelper.toBlockPos(in.getCompound("pos")));
+            BetterBlockPos pos = new BetterBlockPos(NbtHelper.toBlockPos(in, "pos").orElseThrow());
             ret.add(new Waypoint(name, tag, pos, creationTimestamp));
         }
         return ret;

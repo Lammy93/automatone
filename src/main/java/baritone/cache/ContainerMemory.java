@@ -37,6 +37,10 @@ import java.util.Optional;
 
 public class ContainerMemory implements IContainerMemory {
 
+    // 1.20.5+: item stacks serialise with registries; this cache only needs the static ones.
+    private static final net.minecraft.registry.RegistryWrapper.WrapperLookup STATIC_REGISTRIES =
+            net.minecraft.registry.DynamicRegistryManager.of(net.minecraft.registry.Registries.REGISTRIES);
+
     /**
      * The current remembered inventories
      */
@@ -48,7 +52,7 @@ public class ContainerMemory implements IContainerMemory {
             NbtList nbtInventories = tag.getList("inventories", NbtType.COMPOUND);
             for (int i = 0; i < nbtInventories.size(); i++) {
                 NbtCompound nbtEntry = nbtInventories.getCompound(i);
-                BlockPos pos = NbtHelper.toBlockPos(nbtEntry.getCompound("pos"));
+                BlockPos pos = NbtHelper.toBlockPos(nbtEntry, "pos").orElseThrow();
                 RememberedInventory rem = new RememberedInventory();
                 rem.fromNbt(nbtEntry.getList("content", NbtType.LIST));
                 if (rem.items.isEmpty()) {
@@ -137,14 +141,14 @@ public class ContainerMemory implements IContainerMemory {
         public NbtList toNbt() {
             NbtList inv = new NbtList();
             for (ItemStack item : this.items) {
-                inv.add(item.writeNbt(new NbtCompound()));
+                if (!item.isEmpty()) inv.add(item.encode(STATIC_REGISTRIES));
             }
             return inv;
         }
 
         public void fromNbt(NbtList content) {
             for (int i = 0; i < content.size(); i++) {
-                this.items.add(ItemStack.fromNbt(content.getCompound(i)));
+                this.items.add(ItemStack.fromNbtOrEmpty(STATIC_REGISTRIES, content.getCompound(i)));
             }
             this.size = this.items.size();
             this.windowId = -1;

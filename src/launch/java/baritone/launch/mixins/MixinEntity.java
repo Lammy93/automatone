@@ -37,9 +37,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntity implements IEntityAccessor {
     @Shadow public abstract World getEntityWorld();
 
+    // 1.20.5+: eye height is part of EntityDimensions, so there is no Entity method to invoke.
     @Override
-    @Invoker("getEyeHeight")
-    public abstract float automatone$invokeGetEyeHeight(EntityPose pose, EntityDimensions dimensions);
+    public float automatone$invokeGetEyeHeight(EntityPose pose, EntityDimensions dimensions) {
+        return dimensions.eyeHeight();
+    }
     @Override
     @Accessor("type")
     public abstract void automatone$setType(EntityType<?> type);

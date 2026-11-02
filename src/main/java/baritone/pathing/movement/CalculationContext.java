@@ -141,10 +141,10 @@ public class CalculationContext {
         this.worldTop = world.getTopY();
         this.worldBottom = world.getBottomY();
         EntityDimensions dimensions = livingEntity.getDimensions(EntityPose.STANDING);
-        this.width = MathHelper.ceil(dimensions.width);
+        this.width = MathHelper.ceil(dimensions.width());
         // Note: if width is less than 1 (but not negative), we get side space of 0
         this.requiredSideSpace = getRequiredSideSpace(dimensions);
-        this.height = MathHelper.ceil(dimensions.height);
+        this.height = MathHelper.ceil(dimensions.height());
         this.blockPos = new BlockPos.Mutable();
         this.allowSwimming = baritone.settings().allowSwimming.get();
         this.breathTime = baritone.settings().ignoreBreath.get() ? Integer.MAX_VALUE : livingEntity.getMaxAir();
@@ -154,7 +154,7 @@ public class CalculationContext {
     }
 
     public static int getRequiredSideSpace(EntityDimensions dimensions) {
-        return MathHelper.ceil((dimensions.width - 1) * 0.5f);
+        return MathHelper.ceil((dimensions.width() - 1) * 0.5f);
     }
 
     public final IBaritone getBaritone() {

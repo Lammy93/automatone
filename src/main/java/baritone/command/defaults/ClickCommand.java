@@ -48,10 +48,8 @@ public class ClickCommand extends Command {
         try {
             CommandOutput commandOutput = ((ServerCommandSourceAccessor) source).automatone$getOutput();
             if (commandOutput instanceof ServerPlayerEntity) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeIdentifier(OPEN_CLICK_SCREEN);
-                buf.writeUuid(baritone.getPlayerContext().entity().getUuid());
-                ((ServerPlayerEntity) commandOutput).networkHandler.sendPacket(new CustomPayloadS2CPacket(buf));
+                net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send((ServerPlayerEntity) commandOutput,
+                        new baritone.api.fakeplayer.AutomatonePayloads.OpenClickScreen(baritone.getPlayerContext().entity().getUuid()));
             }
         } catch (Throwable t) {
             Automatone.LOGGER.error("Failed to open click screen, is this a dedicated server?", t);

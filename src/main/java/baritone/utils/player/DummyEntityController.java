@@ -97,7 +97,7 @@ public class DummyEntityController implements IPlayerController {
 
         if(blockState.getBlock() instanceof TrapdoorBlock doorBlock) {
             if(DoorBlock.canOpenByHand(world, pos)) {
-                final var actionResult = doorBlock.onUse(blockState, world, pos, null, hand, result);
+                final var actionResult = blockState.onUse(world, null, result);
                 if(actionResult.isAccepted())
                     return actionResult;
             }
@@ -223,7 +223,7 @@ public class DummyEntityController implements IPlayerController {
     public boolean canPlaceOn(BlockPos pos, Direction facing, ItemStack stack, World world) {
         BlockPos blockPos = pos.offset(facing.getOpposite());
         CachedBlockPosition cachedBlockPosition = new CachedBlockPosition(world, blockPos, false);
-        return stack.canPlaceOn(world.getRegistryManager().get(RegistryKeys.BLOCK), cachedBlockPosition);
+        return stack.canPlaceOn(cachedBlockPosition);
     }
 
     protected static BlockHitResult raycast(World world, LivingEntity entity, RaycastContext.FluidHandling fluidHandling) {

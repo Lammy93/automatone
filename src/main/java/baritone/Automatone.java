@@ -60,6 +60,7 @@ public final class Automatone implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        baritone.api.fakeplayer.AutomatonePayloads.register();
 //        DefaultCommands.registerAll();
 //        ArgumentTypes.register("automatone:command", BaritoneArgumentType.class, new ConstantArgumentSerializer<>(BaritoneArgumentType::baritone));
     }

@@ -72,9 +72,9 @@ public class FakeServerPlayerEntity extends ServerPlayerEntity implements Automa
     public FakeServerPlayerEntity(EntityType<? extends PlayerEntity> type, ServerWorld world, GameProfile profile, SyncedClientOptions syncedClientOptions) {
         super(world.getServer(), world, profile, syncedClientOptions);
         ((IEntityAccessor)this).automatone$setType(type);
-        this.setStepHeight(0.6f);
+        java.util.Objects.requireNonNull(this.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.GENERIC_STEP_HEIGHT)).setBaseValue(0.6);
         // Side effects go brr
-        new ServerPlayNetworkHandler(world.getServer(), new ClientConnection(NetworkSide.CLIENTBOUND), this, ConnectedClientData.createDefault(profile));
+        new ServerPlayNetworkHandler(world.getServer(), new ClientConnection(NetworkSide.CLIENTBOUND), this, ConnectedClientData.createDefault(profile, false));
     }
 
     @Override
@@ -160,7 +160,7 @@ public class FakeServerPlayerEntity extends ServerPlayerEntity implements Automa
     public void readCustomDataFromNbt(NbtCompound tag) {
         super.readCustomDataFromNbt(tag);
         if (tag.contains("automatone:display_profile", NbtType.COMPOUND)) {
-            this.displayProfile = NbtHelper.toGameProfile(tag.getCompound("automatone:display_profile"));
+            this.displayProfile = net.minecraft.util.dynamic.Codecs.GAME_PROFILE_WITH_PROPERTIES.parse(net.minecraft.nbt.NbtOps.INSTANCE, tag.getCompound("automatone:display_profile")).result().orElse(null);
         }
         if (tag.contains("head_yaw")) {
             this.headYaw = tag.getFloat("head_yaw");
@@ -171,7 +171,7 @@ public class FakeServerPlayerEntity extends ServerPlayerEntity implements Automa
     public void writeCustomDataToNbt(NbtCompound tag) {
         super.writeCustomDataToNbt(tag);
         if (this.displayProfile != null) {
-            tag.put("automatone:display_profile", NbtHelper.writeGameProfile(new NbtCompound(), this.displayProfile));
+            net.minecraft.util.dynamic.Codecs.GAME_PROFILE_WITH_PROPERTIES.encodeStart(net.minecraft.nbt.NbtOps.INSTANCE, this.displayProfile).result().ifPresent(nbt -> tag.put("automatone:display_profile", nbt));
         }
         tag.putFloat("head_yaw", this.headYaw);
     }
@@ -182,24 +182,13 @@ public class FakeServerPlayerEntity extends ServerPlayerEntity implements Automa
     }
 
     public void sendProfileUpdatePacket() {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeIdentifier(FakePlayers.PROFILE_UPDATE_PACKET_ID);
-        buf.writeVarInt(this.getId());
-        writeProfile(buf, this.getDisplayProfile());
-
-        var packet = new CustomPayloadS2CPacket(buf);
-
+        var payload = new AutomatonePayloads.ProfileUpdate(this.getId(), this.getDisplayProfile());
         for (ServerPlayerEntity e : PlayerLookup.tracking(this)) {
-            e.networkHandler.sendPacket(packet);
+            net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(e, payload);
         }
     }
 
     public static void writeProfile(PacketByteBuf buf, @Nullable GameProfile profile) {
-        buf.writeBoolean(profile != null);
-
-        if (profile != null) {
-            buf.writeUuid(profile.getId());
-            buf.writeString(profile.getName());
-        }
+        AutomatonePayloads.writeProfile(buf, profile);
     }
 }

@@ -165,7 +165,7 @@ public interface MovementHelper extends ActionCosts {
         // every block that overrides isPassable with anything more complicated than a "return true;" or "return false;"
         // has already been accounted for above
         // therefore it's safe to not construct a blockpos from our x, y, z ints and instead just pass null
-        return state.canPathfindThrough(bsi.access, BlockPos.ORIGIN, NavigationType.LAND); // workaround for future compatibility =P
+        return state.canPathfindThrough(NavigationType.LAND); // workaround for future compatibility =P
     }
 
     /**
@@ -213,7 +213,7 @@ public interface MovementHelper extends ActionCosts {
             return false;
         }
         // door, fence gate, liquid, trapdoor have been accounted for, nothing else uses the world or pos parameters
-        return state.canPathfindThrough(access, pos, NavigationType.LAND);
+        return state.canPathfindThrough(NavigationType.LAND);
     }
 
     static boolean isReplaceable(int x, int y, int z, BlockState state, BlockStateInterface bsi) {

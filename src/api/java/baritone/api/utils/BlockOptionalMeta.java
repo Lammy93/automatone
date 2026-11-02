@@ -131,13 +131,13 @@ public final class BlockOptionalMeta {
     // TODO check if erasing the metadata of both the block and the drops is a good idea
     private static synchronized List<Item> drops(ServerWorld world, Block b) {
         return drops.computeIfAbsent(b, block -> {
-            Identifier lootTableLocation = block.getLootTableId();
+            net.minecraft.registry.RegistryKey<net.minecraft.loot.LootTable> lootTableLocation = block.getLootTableKey();
             if (lootTableLocation == LootTables.EMPTY) {
                 return Collections.emptyList();
             } else {
                 List<Item> items = new ArrayList<>();
 
-                world.getServer().getLootManager().getLootTable(lootTableLocation).generateLoot(
+                world.getServer().getReloadableRegistries().getLootTable(lootTableLocation).generateLoot(
                         new LootContextParameterSet.Builder(world)
                         .add(LootContextParameters.ORIGIN, Vec3d.of(BlockPos.ZERO))
                         .add(LootContextParameters.TOOL, ItemStack.EMPTY)
