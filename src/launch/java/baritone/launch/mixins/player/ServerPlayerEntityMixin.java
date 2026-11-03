@@ -58,10 +58,11 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
      * This method is called in the constructor, but requires loaded chunks.
      * So when a fake player is being loaded, it may result in a deadlock.
      */
-    @Inject(method = "moveToSpawn", at = @At("HEAD"), cancellable = true)
-    private void cancelMoveToSpawn(ServerWorld world, CallbackInfo ci) {
+    // 1.21+: moveToSpawn(world) became getWorldSpawnPos(world, basePos); keep fake players at the base position
+    @Inject(method = "getWorldSpawnPos", at = @At("HEAD"), cancellable = true)
+    private void cancelMoveToSpawn(ServerWorld world, net.minecraft.util.math.BlockPos basePos, org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<net.minecraft.util.math.BlockPos> cir) {
         if (this instanceof AutomatoneFakePlayer) {
-            ci.cancel();
+            cir.setReturnValue(basePos);
         }
     }
 
