@@ -36,8 +36,8 @@ public final class FakePlayers {
      *
      * @see FakeServerPlayerEntity#createSpawnPacket()
      */
-    public static final Identifier SPAWN_PACKET_ID = new Identifier("automatone", "fake_player_spawn");
-    public static final Identifier PROFILE_UPDATE_PACKET_ID = new Identifier("automatone", "fake_player_profile");
+    public static final Identifier SPAWN_PACKET_ID = Identifier.of("automatone", "fake_player_spawn");
+    public static final Identifier PROFILE_UPDATE_PACKET_ID = Identifier.of("automatone", "fake_player_profile");
 
     static final Map<EntityType<? extends PlayerEntity>, FakePlayerFactory<ClientWorld, ?>> clientFactories = new HashMap<>();
 

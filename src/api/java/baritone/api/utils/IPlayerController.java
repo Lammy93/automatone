@@ -36,7 +36,7 @@ import net.minecraft.world.World;
  * @since 12/14/2018
  */
 public interface IPlayerController extends TransientComponent {
-    ComponentKey<IPlayerController> KEY = ComponentRegistry.getOrCreate(new Identifier("automatone", "controller"), IPlayerController.class);
+    ComponentKey<IPlayerController> KEY = ComponentRegistry.getOrCreate(Identifier.of("automatone", "controller"), IPlayerController.class);
 
     boolean hasBrokenBlock();
 

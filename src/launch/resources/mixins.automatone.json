@@ -26,6 +26,6 @@
     "player.PlayerEntityMixin",
     "player.ServerPlayerEntityMixin",
     "player.SleepManagerMixin",
-    "player.ThreadedAnvilChunkStorageMixin"
+    "player.ServerChunkLoadingManagerMixin"
   ]
 }

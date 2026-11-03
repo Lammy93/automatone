@@ -36,15 +36,15 @@ package baritone.launch.mixins.player;
 
 import baritone.api.fakeplayer.AutomatoneFakePlayer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ThreadedAnvilChunkStorage;
+import net.minecraft.server.world.ServerChunkLoadingManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ThreadedAnvilChunkStorage.class)
-public abstract class ThreadedAnvilChunkStorageMixin {
+@Mixin(ServerChunkLoadingManager.class)
+public abstract class ServerChunkLoadingManagerMixin {
     @Inject(method = "handlePlayerAddedOrRemoved", at = @At("HEAD"), cancellable = true)
     private void handleFakePlayerAddedOrRemoved(ServerPlayerEntity player, boolean added, CallbackInfo ci) {
         if (added && player instanceof AutomatoneFakePlayer) {

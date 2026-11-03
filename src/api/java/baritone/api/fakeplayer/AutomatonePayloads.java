@@ -39,7 +39,7 @@ public final class AutomatonePayloads {
 
     /** Opens the click-to-path screen for the given Automatone entity. */
     public record OpenClickScreen(UUID entityUuid) implements CustomPayload {
-        public static final Id<OpenClickScreen> ID = new Id<>(new Identifier("automatone", "open_click_screen"));
+        public static final Id<OpenClickScreen> ID = new Id<>(Identifier.of("automatone", "open_click_screen"));
         public static final PacketCodec<RegistryByteBuf, OpenClickScreen> CODEC = PacketCodec.of(
                 (value, buf) -> buf.writeUuid(value.entityUuid()),
                 buf -> new OpenClickScreen(buf.readUuid()));

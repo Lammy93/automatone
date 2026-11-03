@@ -65,10 +65,11 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
         }
     }
 
-    @Inject(method = "moveToWorld", at = @At("HEAD"), cancellable = true)
-    private void callSuperMoveToWorld(ServerWorld destination, CallbackInfoReturnable<Entity> cir) {
+    // 1.21+: moveToWorld(ServerWorld) became teleportTo(TeleportTarget)
+    @Inject(method = "teleportTo", at = @At("HEAD"), cancellable = true)
+    private void callSuperTeleportTo(net.minecraft.world.TeleportTarget target, CallbackInfoReturnable<Entity> cir) {
         if (this instanceof AutomatoneFakePlayer) {
-            cir.setReturnValue(super.moveToWorld(destination));
+            cir.setReturnValue(super.teleportTo(target));
         }
     }
 }

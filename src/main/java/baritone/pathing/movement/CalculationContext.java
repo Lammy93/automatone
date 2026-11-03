@@ -125,7 +125,8 @@ public class CalculationContext {
         this.allowDownward = baritone.settings().allowDownward.get();
         this.maxFallHeightNoWater = baritone.settings().maxFallHeightNoWater.get();
         this.maxFallHeightBucket = baritone.settings().maxFallHeightBucket.get();
-        int depth = EnchantmentHelper.getDepthStrider(livingEntity);
+        // 1.21+: Depth Strider is the water-movement-efficiency attribute (level 3 = 1.0)
+        int depth = (int) Math.round(livingEntity.getAttributeValue(net.minecraft.entity.attribute.EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY) * 3);
         if (depth > 3) {
             depth = 3;
         }

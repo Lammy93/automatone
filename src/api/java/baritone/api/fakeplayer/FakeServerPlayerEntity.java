@@ -177,8 +177,8 @@ public class FakeServerPlayerEntity extends ServerPlayerEntity implements Automa
     }
 
     @Override
-    public Packet<ClientPlayPacketListener> createSpawnPacket() {
-        return new EntitySpawnS2CPacket(this);
+    public Packet<ClientPlayPacketListener> createSpawnPacket(net.minecraft.server.network.EntityTrackerEntry entry) {
+        return new EntitySpawnS2CPacket(this, entry); // 1.21+: spawn packets take the tracker entry
     }
 
     public void sendProfileUpdatePacket() {

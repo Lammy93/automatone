@@ -30,7 +30,7 @@ import net.minecraft.util.math.Direction;
  * the current selection.
  */
 public interface ISelectionManager extends AutoSyncedComponent {
-    ComponentKey<ISelectionManager> KEY = ComponentRegistry.getOrCreate(new Identifier("automatone", "selection_manager"), ISelectionManager.class);
+    ComponentKey<ISelectionManager> KEY = ComponentRegistry.getOrCreate(Identifier.of("automatone", "selection_manager"), ISelectionManager.class);
 
     /**
      * Adds a new selection. The added selection is returned.

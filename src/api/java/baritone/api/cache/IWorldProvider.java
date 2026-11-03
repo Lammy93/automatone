@@ -28,7 +28,7 @@ import net.minecraft.util.Identifier;
  * @since 9/24/2018
  */
 public interface IWorldProvider extends Component {
-    ComponentKey<IWorldProvider> KEY = ComponentRegistry.getOrCreate(new Identifier("automatone", "world_data_provider"), IWorldProvider.class);
+    ComponentKey<IWorldProvider> KEY = ComponentRegistry.getOrCreate(Identifier.of("automatone", "world_data_provider"), IWorldProvider.class);
 
     /**
      * Returns the data of the currently loaded world

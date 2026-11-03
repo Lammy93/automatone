@@ -92,7 +92,7 @@ public class ToolSet {
     }
 
     public boolean hasSilkTouch(ItemStack stack) {
-        return EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) > 0;
+        return enchantmentLevel(stack, Enchantments.SILK_TOUCH) > 0;
     }
 
     /**
@@ -183,7 +183,7 @@ public class ToolSet {
 
         float speed = item.getMiningSpeedMultiplier(state);
         if (speed > 1) {
-            int effLevel = EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, item);
+            int effLevel = enchantmentLevel(item, Enchantments.EFFICIENCY);
             if (effLevel > 0 && !item.isEmpty()) {
                 speed += effLevel * effLevel + 1;
             }
@@ -220,5 +220,13 @@ public class ToolSet {
             }
         }
         return speed;
+    }
+
+    // 1.21+: enchantments are data-driven registry entries; read the level straight from the stack's component
+    private static int enchantmentLevel(ItemStack stack, net.minecraft.registry.RegistryKey<net.minecraft.enchantment.Enchantment> key) {
+        for (var entry : stack.getEnchantments().getEnchantmentEntries()) {
+            if (entry.getKey().matchesKey(key)) return entry.getIntValue();
+        }
+        return 0;
     }
 }
